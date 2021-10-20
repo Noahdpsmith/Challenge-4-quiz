@@ -3,10 +3,21 @@ const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
-
+const scoreButton = document.getElementById('score-btn')
+const saveScoreBtn =document.getElementById('saveScoreBtn')
+const end =document.getElementById('end')
+const answerBox =document.getElementById('answerBox')
+const mostRecentScore =localStorage.getItem('mostRecentScore')
+const mostRecentScoreName =localStorage.getItem('mostRecentScoreName')
+const username=document.getElementById('username')
+const finalScore =document.getElementById('finalScore')
+const scoreText =document.getElementById('score')
 let shuffledQuestions, currentQuestionIndex
-
+var count = 20;
+var score = 30;
 startButton.addEventListener('click', startGame)
+scoreButton.addEventListener('click', showScoreBoard)
+saveScoreBtn.addEventListener('click', saveScore)
 nextButton.addEventListener('click', () => {
     currentQuestionIndex++
     setNextQuestion()
@@ -18,6 +29,19 @@ nextButton.addEventListener('click', () => {
     currentQuestionIndex = 0
     questionContainerElement.classList.remove('hide')
     setNextQuestion()
+    
+    
+    var interval = setInterval(function(){
+        document.getElementById('count').innerHTML = count;
+        count--;
+        if (count < 0){
+            clearInterval(interval);
+            document.getElementById('count').innerHTML='';
+        // or...
+            alert("You're out of time!");
+            showScoreBoard();
+        }
+    }, 1000);
   }
   
   function setNextQuestion() {
@@ -37,6 +61,7 @@ nextButton.addEventListener('click', () => {
       button.addEventListener('click', selectAnswer)
       answerButtonsElement.appendChild(button)
     })
+
   }
   
   function resetState() {
@@ -50,6 +75,12 @@ nextButton.addEventListener('click', () => {
   function selectAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
+    if(!correct){
+        count = count-5
+    }
+    else{
+        score = score+5
+    }
     setStatusClass(document.body, correct)
     Array.from(answerButtonsElement.children).forEach(button => {
       setStatusClass(button, button.dataset.correct)
@@ -57,10 +88,30 @@ nextButton.addEventListener('click', () => {
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
       nextButton.classList.remove('hide')
     } else {
-      startButton.innerText = 'Restart'
-      startButton.classList.remove('hide')
+      scoreButton.innerText = 'score'
+      scoreButton.classList.remove('hide')
+
     }
   }
+  function showScoreBoard(){
+    answerBox.classList=('hide')
+    end.classList.remove('hide')
+   
+    finalScore.innerText = "Previous High Score: " + mostRecentScore + " " + mostRecentScoreName;
+    scoreText.innerHTML= score
+    if (score > mostRecentScore){
+        scoreText.innerHTML= "High Score! " + score
+    }
+}
+    function saveScore(){
+        if (score > mostRecentScore){
+            localStorage.setItem("mostRecentScore", score);
+            localStorage.setItem("mostRecentScoreName", username.value);
+        }
+    }
+
+
+
   
   function setStatusClass(element, correct) {
     clearStatusClass(element)
@@ -68,12 +119,17 @@ nextButton.addEventListener('click', () => {
       element.classList.add('correct')
     } else {
       element.classList.add('wrong')
+        
     }
   }
   
   function clearStatusClass(element) {
     element.classList.remove('correct')
     element.classList.remove('wrong')
+  }
+  saveHighscore = (e) => {
+      e.preventDefault();
+
   }
   
   const questions = [

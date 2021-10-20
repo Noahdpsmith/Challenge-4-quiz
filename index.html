@@ -9,8 +9,9 @@
   <script defer src="assets\java\script.js"></script>
   <title>Random Quiz</title>
 </head>
+
 <body>
-  <div class="container">
+  <div class="container" id="answerBox">
     <div id="question-container" class="hide">
       <div id="question">Question</div>
       <div id="answer-buttons" class="btn-grid">
@@ -21,9 +22,42 @@
       </div>
     </div>
     <div class="controls">
+        <div id="count"></div>
       <button id="start-btn" class="start-btn btn">Start</button>
       <button id="next-btn" class="next-btn btn hide">Next</button>
+      <button id="score-btn" class="score-btn btn hide">Score Board</button>
     </div>
+  </div>
+  
+  <div id="end" class="hide">
+  <div class="container2">
+        <div class="flex-center flex-column">
+            <h1 id="finalScore"></h1>
+            <form>
+                <div class="container3">
+                   <p>
+                       Score
+                   </p> 
+                   <h1 id="score"></h1>
+                </div>
+                <input
+                 type="text"
+                 name="username"
+                 id="username"
+                 placeholder="username"
+                 />
+                 
+                 <button
+                    type="submit"
+                    class="btn"
+                    id="saveScoreBtn"
+                >
+                    Save
+                </button>
+
+            </form>
+        </div>
+  </div>
   </div>
 </body>
 </html>
