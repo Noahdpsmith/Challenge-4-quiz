@@ -14,7 +14,7 @@ const finalScore =document.getElementById('finalScore')
 const scoreText =document.getElementById('score')
 let shuffledQuestions, currentQuestionIndex
 var count = 20;
-var score = 30;
+var score = 0;
 startButton.addEventListener('click', startGame)
 scoreButton.addEventListener('click', showScoreBoard)
 saveScoreBtn.addEventListener('click', saveScore)
